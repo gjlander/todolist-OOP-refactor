@@ -1,9 +1,9 @@
 // Each todo is an object, I want the functions from each part of the todo to be a method on the object
 export default class Todo {
-    constructor(title, domContainer) {
+    constructor(title, done, domContainer) {
         this.title = title;
+        this.done = done;
         this.container = domContainer;
-        this.done = false;
         this.init();
     }
     init() {
@@ -21,13 +21,27 @@ export default class Todo {
         const checkDoneBox = document.createElement("input");
         checkDoneBox.classList.add("form-check-input", "me-1", "checkDone");
         checkDoneBox.setAttribute("type", "checkbox");
-        checkDoneBox.addEventListener("click", (e) =>
-            e.target.nextElementSibling.classList.toggle("done")
-        );
+        checkDoneBox.addEventListener("click", () => {
+            const storedTodos = localStorage.getItem("todos");
+            if (storedTodos) {
+                const todos = JSON.parse(storedTodos);
+                todos.forEach((todo) => {
+                    if (todo.title === todoText.textContent) {
+                        todo.done = !todo.done;
+                    }
+                });
+                localStorage.setItem("todos", JSON.stringify(todos));
+            }
+            todoText.classList.toggle("done");
+        });
 
         const todoText = document.createElement("label");
         todoText.textContent = `${this.title}`;
         todoText.classList.add("form-check-label", "todoText");
+        if (this.done) {
+            checkDoneBox.setAttribute("checked", true);
+            todoText.classList.add("done");
+        }
 
         leftWrapper.appendChild(checkDoneBox);
         leftWrapper.appendChild(todoText);
@@ -50,10 +64,21 @@ export default class Todo {
             confirmBtn.setAttribute("type", "submit");
             confirmBtn.textContent = "Confirm";
             confirmBtn.addEventListener("click", () => {
-                console.log("before", this.title);
+                //localstorage
+                const storedTodos = localStorage.getItem("todos");
+                if (storedTodos) {
+                    const todos = JSON.parse(storedTodos);
+                    todos.forEach((todo) => {
+                        if (todo.title === todoText.textContent) {
+                            todo.title = editInput.value;
+                        }
+                    });
+                    localStorage.setItem("todos", JSON.stringify(todos));
+                }
                 this.title = editInput.value;
-                console.log("after", this.title);
                 todoText.textContent = `${this.title}`;
+                console.log("after", this.title);
+
                 leftWrapper.classList.remove("d-none");
                 inputWrapper.remove();
             });
@@ -78,9 +103,22 @@ export default class Todo {
         const deleteBtn = document.createElement("button");
         deleteBtn.textContent = "Delete";
         deleteBtn.classList.add("btn", "btn-danger");
-        deleteBtn.addEventListener("click", (e) =>
-            e.target.parentElement.remove()
-        );
+        deleteBtn.addEventListener("click", (e) => {
+            const storedTodos = localStorage.getItem("todos");
+            if (storedTodos) {
+                const todos = JSON.parse(storedTodos);
+                todos.forEach((todo, i) => {
+                    if (todo.title === this.title) {
+                        todos.splice(i, 1);
+                    }
+                });
+                localStorage.setItem("todos", JSON.stringify(todos));
+                if (todos.length === 0) {
+                    localStorage.removeItem("todos");
+                }
+            }
+            e.target.parentElement.remove();
+        });
 
         li.appendChild(leftWrapper);
         li.appendChild(editBtn);
