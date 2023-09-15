@@ -21,14 +21,15 @@
                         <input
                             type="text"
                             class="form-control"
+                            id="textForNewTodo"
                             placeholder="Add a new task..."
                             aria-label="Add a new task..."
                             aria-describedby="button-addon2"
                         />
                         <button
                             class="btn btn-primary"
-                            type="button"
-                            id="button-addon2"
+                            type="submit"
+                            id="newItemBtn"
                         >
                             Add
                         </button>
@@ -38,27 +39,36 @@
             <div class="row">
                 <div class="col">
                     <h2 class="display-6">Tasks</h2>
-                    <ul class="list-group bg-light h-100">
-                        <!-- <li
-                            class="list-group-item d-flex justify-content-between align-items-center"
+                    <ul class="list-group bg-light h-100 taskList">
+                        <li
+                            class="list-group-item d-flex align-items-center gap-1"
                         >
-                            <div class="d-flex">
+                            <div class="d-flex me-auto">
                                 <input
-                                    class="form-check-input me-1"
+                                    class="form-check-input me-1 checkDone"
                                     type="checkbox"
                                     value=""
                                     id="firstCheckbox"
                                 />
                                 <label
-                                    class="form-check-label"
+                                    class="form-check-label todoText"
                                     for="firstCheckbox"
                                     >Example Task</label
                                 >
                             </div>
-                            <button type="button" class="btn btn-danger">
+                            <button
+                                type="button"
+                                class="btn btn-success editBtn"
+                            >
+                                Edit
+                            </button>
+                            <button
+                                type="button"
+                                class="btn btn-danger deleteBtn"
+                            >
                                 Delete
                             </button>
-                        </li> -->
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -68,6 +78,6 @@
             integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
             crossorigin="anonymous"
         ></script>
-        <script src="./index.js"></script>
+        <script src="./index.js" type="module"></script>
     </body>
 </html>
