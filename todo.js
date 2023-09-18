@@ -32,7 +32,7 @@ export default class Todo {
                 });
                 localStorage.setItem("todos", JSON.stringify(todos));
             }
-            todoText.classList.toggle("done");
+            todoText.classList.toggle("text-decoration-line-through");
         });
 
         const todoText = document.createElement("label");
@@ -40,7 +40,7 @@ export default class Todo {
         todoText.classList.add("form-check-label", "todoText");
         if (this.done) {
             checkDoneBox.setAttribute("checked", true);
-            todoText.classList.add("done");
+            todoText.classList.add("text-decoration-line-through");
         }
 
         leftWrapper.appendChild(checkDoneBox);
